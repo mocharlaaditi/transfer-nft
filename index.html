@@ -64,6 +64,15 @@
       border-color:  #FEC241;
     }
 
+    .success-msg {
+      font-size: 20px;
+      font-weight: bold;
+      font-family: 'Circular Std Book';
+      color: #5BCA81;
+      display: none;
+      text-align: center;
+    }
+
 
     </style>
 
@@ -79,6 +88,7 @@
     </div>
     <div class="button-container">
       <button class="button" id="btn-transfer">Transfer NFT</button>
+      <p id="success-msg" class="success-msg">You have successfully transferred your NFT to your wallet!</p>
     </div>
     <div class='footer'>
       <img class="img-footer" src="lightsoy-white-bg.png" alt="bentobox logo"></img>
@@ -103,12 +113,18 @@
         const options = {
           type: "erc721",
           receiver: userWalletAddress,
-          contractAddress: "0x00bcf9453e58982168a5cc50dc16dc39a0b46ceb",
+          contractAddress: "0x445C1327Bc03A1c1e140164eA3f69FeFB1Fda23c",
           tokenId: "0",
         };
         let transaction = await Moralis.transfer(options);  
-        const result = await transaction.wait();  
+        const result = await transaction.wait();
+        
+        console.log(result, "HIT <<<<")
 
+        if (result) {
+          document.getElementById('btn-transfer').style = 'display: none;'
+          document.getElementById('success-msg').style = 'display: block;'
+        }
       }
 
       document.getElementById('btn-transfer').onclick = transfer;
