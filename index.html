@@ -1,0 +1,118 @@
+<html>
+  <style>
+    .page {
+      background-color: white;
+    }
+
+    .header {
+     text-align: center;
+     margin-top: 80px;
+     font-weight: 300;
+      font-style: normal;
+      color:  #F15541;
+      font-family: 'Circular Std Book';
+      line-height: 1;
+      font-size: 50px;
+    }
+    
+    .button-container {
+      position: relative;
+      top: 20%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .button {
+      height: 75px;
+      width: 200px;
+      font-weight: 400;
+      font-style: normal;
+      border: none;
+      border-radius: 2rem;
+      background-color:    #00BAC6;
+      color: #fff;
+      font-size: 20px;
+      font-family: 'Circular Std Book';
+    }
+    
+    .footer {
+      position: fixed;
+      left: 30;
+      top: 30;
+      width: 100%;
+      background-color: white;
+      text-align: left;
+    }
+
+    .img-container {
+      position: relative;
+      top: 5%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .img-footer {
+      max-width: 12.5%;
+      border-width: .5em;
+     
+    }
+
+    .img-nft {
+      width: 25%;
+      border-width: 1em;
+      border-style: solid;
+      border-color:  #FEC241;
+    }
+
+
+    </style>
+
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <link href="//db.onlinewebfonts.com/c/860c3ec7bbc5da3e97233ccecafe512e?family=Circular+Std+Book" rel="stylesheet" type="text/css"/>
+  </head>
+  <body class="page">
+    <h1 class="header">Redeem your NFT</h1>
+    <div class="img-container">
+      <img class="img-nft" src="guy-fieiri-flame_1.avif" alt="nft image" ></img>
+    </div>
+    <div class="button-container">
+      <button class="button" id="btn-transfer">Transfer NFT</button>
+    </div>
+    <div class='footer'>
+      <img class="img-footer" src="lightsoy-white-bg.png" alt="bentobox logo"></img>
+    </div>
+   
+    
+
+    <script>
+      const serverUrl = "https://0ntys4th7t1x.usemoralis.com:2053/server";
+      const appId = "0HT1FBQOYn6p1X9OQYUgMZOMcr3i5b28Z3oarTa8";
+      Moralis.start({ serverUrl, appId });
+
+
+      async function transfer() {
+        user = await Moralis.authenticate();
+
+        console.log(user);
+
+        const userWalletAddress = user.attributes.accounts[0]
+        console.log('wallet address', userWalletAddress);
+        // sending a token with token id = 0
+        const options = {
+          type: "erc721",
+          receiver: userWalletAddress,
+          contractAddress: "0x00bcf9453e58982168a5cc50dc16dc39a0b46ceb",
+          tokenId: "0",
+        };
+        let transaction = await Moralis.transfer(options);  
+        const result = await transaction.wait();  
+
+      }
+
+      document.getElementById('btn-transfer').onclick = transfer;
+
+    </script>
+  </body>
+</html>
